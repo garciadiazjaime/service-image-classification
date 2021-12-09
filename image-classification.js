@@ -12,14 +12,18 @@ async function getImage(mediaUrl) {
   return tfimage;
 }
 
-async function getImageClassification(mediaUrl) {
-  debug(`classifying:${mediaUrl}`);
-
-  const image = await getImage(mediaUrl);
+async function ImageClassification() {
   const mobilenetModel = await mobilenet.load();
-  const classification = await mobilenetModel.classify(image);
 
-  return classification;
+  return async function getImageClassification(mediaUrl) {
+    debug(`classifying:${mediaUrl}`);
+
+    const image = await getImage(mediaUrl);
+
+    const classification = await mobilenetModel.classify(image);
+
+    return classification;
+  };
 }
 
-module.exports = getImageClassification;
+module.exports = ImageClassification;

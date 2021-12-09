@@ -1,7 +1,9 @@
 const express = require('express');
 const debug = require('debug')('app:index');
 
-const getImageClassification = require('./get-image-classification');
+const ImageClassification = require('./image-classification');
+
+let getImageClassification;
 
 const { PORT = 3030 } = process.env;
 const app = express();
@@ -22,4 +24,8 @@ app.get('/image/classification', async (req, res) => {
   return res.send(classification);
 });
 
-app.listen(PORT, () => debug(`Listening on ${PORT}`));
+app.listen(PORT, async () => {
+  debug(`Listening on ${PORT}`);
+
+  getImageClassification = await ImageClassification();
+});
