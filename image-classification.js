@@ -11,16 +11,14 @@ async function getImage(mediaUrl) {
   return imageBuffer;
 }
 
-async function ImageClassification() {
+async function ImageClassification(mediaUrl) {
+  debug(`classifying:${mediaUrl}`);
+
   await mobilenet.load();
 
-  return async function getImageClassification(mediaUrl) {
-    debug(`classifying:${mediaUrl}`);
+  await getImage(mediaUrl);
 
-    await getImage(mediaUrl);
-
-    return [];
-  };
+  return [];
 }
 
 module.exports = ImageClassification;

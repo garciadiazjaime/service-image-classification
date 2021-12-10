@@ -2,9 +2,7 @@ require('newrelic');
 const express = require('express');
 const debug = require('debug')('app:index');
 
-const ImageClassification = require('./image-classification');
-
-let getImageClassification;
+const getImageClassification = require('./image-classification');
 
 const { PORT = 3030 } = process.env;
 const app = express();
@@ -26,7 +24,5 @@ app.get('/image/classification', async (req, res) => {
 });
 
 app.listen(PORT, async () => {
-  getImageClassification = await ImageClassification();
-
   debug(`Listening on ${PORT}`);
 });
