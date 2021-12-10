@@ -4,20 +4,17 @@ const tfnode = require('@tensorflow/tfjs-node');
 
 const debug = require('debug')('app:classify-images');
 
-async function ImageClassification() {
+async function getImageClassification(mediaUrl) {
+  debug(`classifying:${mediaUrl}`);
   const mobilenetModel = await mobilenet.load();
 
-  return async function getImageClassification(mediaUrl) {
-    debug(`classifying:${mediaUrl}`);
+  const response = await fetch(mediaUrl);
+  const imageBuffer = await response.buffer();
+  const tfimage = tfnode.node.decodeImage(imageBuffer);
 
-    const response = await fetch(mediaUrl);
-    const imageBuffer = await response.buffer();
-    const tfimage = tfnode.node.decodeImage(imageBuffer);
+  const classification = await mobilenetModel.classify(tfimage);
 
-    const classification = await mobilenetModel.classify(tfimage);
-
-    return classification;
-  };
+  return classification;
 }
 
-module.exports = ImageClassification;
+module.exports = getImageClassification;
