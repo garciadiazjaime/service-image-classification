@@ -9,8 +9,7 @@
     "test": "node ./test.js",
     "lint": "npx eslint .",
     "d": "git push heroku",
-    "h:a": " heroku accounts:set service-image-classification",
-    "h:l": " heroku logs"
+    "a": " heroku accounts:set service-image-classification"
   },
   "keywords": [],
   "author": "",
