@@ -8,7 +8,9 @@
     "dev": "nodemon ./index.js",
     "test": "node ./test.js",
     "lint": "npx eslint .",
-    "deploy": "git push heroku"
+    "d": "git push heroku",
+    "h:a": " heroku accounts:set service-image-classification",
+    "h:l": " heroku logs"
   },
   "keywords": [],
   "author": "",
