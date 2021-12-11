@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
-require('@tensorflow-models/mobilenet');
-require('@tensorflow/tfjs-node');
+const mobilenet = require('@tensorflow-models/mobilenet');
+const tfnode = require('@tensorflow/tfjs-node');
 
 const debug = require('debug')('app:classify-images');
 
@@ -11,12 +11,19 @@ async function getImage(mediaUrl) {
   return imageBuffer;
 }
 
-async function ImageClassification(mediaUrl) {
-  debug(`classifying:${mediaUrl}`);
+async function ImageClassification() {
+  const mobilenetModel = await mobilenet.load();
 
-  await getImage(mediaUrl);
+  return async function getImageClassification(mediaUrl, count) {
+    debug(`classifying:${count}:${mediaUrl}`);
 
-  return [];
+    const imageBuffer = await getImage(mediaUrl);
+
+    const tfimage = tfnode.node.decodeImage(imageBuffer);
+    const classification = await mobilenetModel.classify(tfimage);
+
+    return classification;
+  };
 }
 
 module.exports = ImageClassification;
