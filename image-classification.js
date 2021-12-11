@@ -5,7 +5,14 @@ const tfnode = require('@tensorflow/tfjs-node');
 const debug = require('debug')('app:classify-images');
 
 async function getImage(mediaUrl) {
-  const response = await fetch(mediaUrl);
+  let response;
+  try {
+    response = await fetch(mediaUrl);
+  } catch (error) {
+    debug('error', error);
+    return null;
+  }
+
   const imageBuffer = await response.buffer();
 
   return imageBuffer;
@@ -18,6 +25,9 @@ async function ImageClassification() {
     debug(`classifying:${count}:${mediaUrl}`);
 
     const imageBuffer = await getImage(mediaUrl);
+    if (!imageBuffer) {
+      return [];
+    }
 
     const tfimage = tfnode.node.decodeImage(imageBuffer);
     const classification = await mobilenetModel.classify(tfimage);
