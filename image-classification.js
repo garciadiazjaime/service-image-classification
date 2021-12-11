@@ -5,11 +5,10 @@ const tfnode = require('@tensorflow/tfjs-node');
 const debug = require('debug')('app:classify-images');
 
 async function getImage(mediaUrl) {
-  let response;
-  try {
-    response = await fetch(mediaUrl);
-  } catch (error) {
-    debug('error', error);
+  const response = await fetch(mediaUrl);
+
+  if (response.status === 403) {
+    debug('INVALID_URL');
     return null;
   }
 
