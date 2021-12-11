@@ -6,7 +6,7 @@ const ImageClassification = require('./image-classification');
 
 let getImageClassification;
 
-const { PORT = 3030 } = process.env;
+const { PORT = 3031 } = process.env;
 const app = express();
 
 app.get('/', (req, res) => {
